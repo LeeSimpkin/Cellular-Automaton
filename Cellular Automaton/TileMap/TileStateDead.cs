@@ -26,6 +26,8 @@ namespace Cellular_Automaton
         public override void OnUpdate(float seconds)
         {
             Point point = Mouse.GetState().Position;
+            if (Tile.InvalidTile(point.X / TileMap.Size, point.Y / TileMap.Size))
+                return;
             Tile t = TileMap.Tiles[point.X / TileMap.Size, point.Y / TileMap.Size];
             t.Type = Tile.TileType.DEAD;
         }

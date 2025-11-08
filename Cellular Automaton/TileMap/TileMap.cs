@@ -55,24 +55,6 @@ namespace Cellular_Automaton
                 }
             }
         }
-        public void ChangeType(Point point, Tile.TileType type)
-        {
-            int column = point.X / Size;
-            int row = point.Y / Size;
 
-            if (InvalidTile(column, row))
-                return;
-    
-            Tile tile = Tiles[column, row];
-            tile.Type = type;
-        }
-        private bool InvalidTile(int col, int row)
-        {
-            return col < 0 || col >= Columns || row < 0 || row >= Rows;
-        }
-        private bool ValidTile(int col, int row)
-        {
-            return !InvalidTile(col, row);
-        }
     }
 }
