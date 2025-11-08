@@ -43,8 +43,8 @@ namespace Cellular_Automaton
             SparseGraph<TileState, IStateTransition> graph = new();
             graph.AddNode(aliveState);
             graph.AddNode(deadState);
-            //graph.AddEdge(aliveState, new DieTransition(this), deadState);
-            //graph.AddEdge(deadState, new BornTransition(this), aliveState);
+            graph.AddEdge(aliveState, new DieTransition(this), deadState);
+            graph.AddEdge(deadState, new BornTransition(this), aliveState);
             graph.AddEdge(deadState, new KeyPressTransition(), aliveState);
 
             fsm = new FiniteStateMachine<TileState, IStateTransition>(graph, deadState);

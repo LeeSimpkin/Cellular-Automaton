@@ -23,7 +23,7 @@ namespace Cellular_Automaton
             whitePixelTexture = new Texture2D(GraphicsDevice, 1, 1);
             whitePixelTexture.SetData(new Color[] { Color.White });
             tileMap = new TileMap(70, 50, whitePixelTexture, this);
-            foreach (Tile t in tileMap.Tiles)
+            foreach (Tile t in TileMap.Tiles)
             {
                 Components.Add(t);
             }
@@ -38,7 +38,7 @@ namespace Cellular_Automaton
 
         protected override void Update(GameTime gameTime)
         {
-            foreach (Tile t in tileMap.Tiles)
+            foreach (Tile t in TileMap.Tiles)
             {
                 t.Update(gameTime);
             }

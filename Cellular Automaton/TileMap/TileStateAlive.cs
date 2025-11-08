@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,7 +18,7 @@ namespace Cellular_Automaton
         }
         public override void OnEnter()
         {
-            tile.Type = Tile.TileType.ALIVE;
+            //tile.Type = Tile.TileType.ALIVE;
         }
         public override void OnExit()
         {
@@ -24,7 +26,9 @@ namespace Cellular_Automaton
         }
         public override void OnUpdate(float seconds)
         {
-            // Logic to execute during the update cycle while in the Alive state
+            Point point = Mouse.GetState().Position;
+            Tile t = TileMap.Tiles[point.X / TileMap.Size, point.Y / TileMap.Size];
+            t.Type = Tile.TileType.ALIVE;
         }
     }
 }

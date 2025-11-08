@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +17,7 @@ namespace Cellular_Automaton
         }
         public override void OnEnter()
         {
-            tile.Type = Tile.TileType.DEAD;
+            //tile.Type = Tile.TileType.DEAD;
         }
         public override void OnExit()
         {
@@ -23,7 +25,9 @@ namespace Cellular_Automaton
         }
         public override void OnUpdate(float seconds)
         {
-            // Logic to execute during the update cycle while in the Dead state
+            Point point = Mouse.GetState().Position;
+            Tile t = TileMap.Tiles[point.X / TileMap.Size, point.Y / TileMap.Size];
+            t.Type = Tile.TileType.DEAD;
         }
     }
 }

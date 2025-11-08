@@ -10,10 +10,10 @@ namespace Cellular_Automaton
 {
     public class TileMap
     {
-        public Tile[,] Tiles;
+        public static Tile[,] Tiles;
         private int Columns => Tiles.GetLength(0);
         private int Rows => Tiles.GetLength(1);
-        private int Size => 12;
+        public static int Size => 12;
 
         private Texture2D _whitePixelTexture;
         public TileMap(int columns, int rows, Texture2D texture, Game game)
