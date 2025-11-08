@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Cellular_Automaton
 {
-    internal class Grid
+    public interface IStateTransition
     {
-
+        public bool ToTransition();
     }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Cellular_Automaton
 {
-    internal class Tile
+    public interface IState
     {
+        public void OnEnter();
+        public void OnExit();
+        public void OnUpdate(float seconds);
     }
 }

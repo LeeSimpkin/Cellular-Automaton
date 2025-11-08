@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Cellular_Automaton
+{
+    public class FiniteStateMachine<TNode, TEdge>
+        where TNode : IState
+        where TEdge : IStateTransition
+    {
+        private SparseGraph<TNode, TEdge> _fsm = new();
+        public TNode CurrentState;
+        public FiniteStateMachine(SparseGraph<TNode, TEdge> fsm, TNode currentState)
+        {
+            _fsm = fsm;
+            CurrentState = currentState;
+            currentState.OnEnter();
+        }
+        public void Update(float seconds)
+        {
+            var edges = _fsm.GetEdges(CurrentState);
+
+            foreach ((TEdge, TNode) edge in edges)
+            {
+                if (edge.Item1.ToTransition())
+                {
+                    CurrentState.OnExit();
+                    CurrentState = edge.Item2;
+                    CurrentState.OnEnter();
+                }
+            }
+
+            if (CurrentState != null)
+            {
+                CurrentState.OnUpdate(seconds);
+            }
+        }
+    }
+}
