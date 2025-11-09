@@ -11,13 +11,15 @@ namespace Cellular_Automaton
     public class TileStateDead : TileState
     {
         Tile tile;
-        public TileStateDead(Tile tile) : base()
+        Point point;
+        public TileStateDead(Tile tile, Point point) : base()
         {
             this.tile = tile;
+            this.point = point;
         }
         public override void OnEnter()
         {
-            //tile.Type = Tile.TileType.DEAD;
+            Game1.tileMap.ChangeType(point, Tile.TileType.DEAD);
         }
         public override void OnExit()
         {
@@ -25,11 +27,6 @@ namespace Cellular_Automaton
         }
         public override void OnUpdate(float seconds)
         {
-            Point point = Mouse.GetState().Position;
-            if (Tile.InvalidTile(point.X / TileMap.Size, point.Y / TileMap.Size))
-                return;
-            Tile t = TileMap.Tiles[point.X / TileMap.Size, point.Y / TileMap.Size];
-            t.Type = Tile.TileType.DEAD;
         }
     }
 }

@@ -1,23 +1,30 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Cellular_Automaton;
+using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Cellular_Automaton.TileState;
 
 namespace Cellular_Automaton
 {
     public class Tile : GameComponent
     {
-        public enum TileType { DEAD, ALIVE };
-        public TileType Type { get; set; }
         private FiniteStateMachine<TileState, IStateTransition> fsm;
-        public static int Column { get; set; } = 0;
-        public static int Row { get; set; } = 0;
+
+        // Per-tile coordinates
+        public int Column { get; set; }
+        public int Row { get; set; }
+
+        public static int Columns { get; set; } = 0;
+        public static int Rows { get; set; } = 0;
+
+        // Grid reference for neighbor lookups (set by TileMap)
         public static Tile[,] AllTiles { get; set; }
+
+        public enum TileType
+        {
+            DEAD,
+            ALIVE
+        }
+
+        public TileType Type { get; set; }
 
         public Rectangle OutLineRectangle;
         public Color OutLineColour;
@@ -35,25 +42,26 @@ namespace Cellular_Automaton
                 }
             }
         }
-        public Tile(Game game) : base(game)
+
+        // Parameterless constructor so TileMap can new Tile()
+        public Tile() : base(null)
         {
-            TileStateAlive aliveState = new TileStateAlive(this);
-            TileStateDead deadState = new TileStateDead(this);
+            var aliveState = new TileStateAlive(this, Game1.point);
+            var deadState = new TileStateDead(this, Game1.point);
 
             SparseGraph<TileState, IStateTransition> graph = new();
             graph.AddNode(aliveState);
             graph.AddNode(deadState);
-            //graph.AddEdge(aliveState, new DieTransition(this), deadState);
-            //graph.AddEdge(deadState, new BornTransition(this), aliveState);
-            graph.AddEdge(deadState, new KeyPressTransition(), aliveState);
-
+            graph.AddEdge(aliveState, new DieTransition(this), deadState);
+            graph.AddEdge(deadState, new BornTransition(this), aliveState);
             fsm = new FiniteStateMachine<TileState, IStateTransition>(graph, deadState);
+            Type = TileType.DEAD;
         }
+
+        // Optional: Update if you use the per-tile FSM update loop
         public override void Update(GameTime gameTime)
         {
-            float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            fsm.Update(seconds);
-            base.Update(gameTime);
+            fsm.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         public int CountAliveNeighbors()
@@ -70,7 +78,6 @@ namespace Cellular_Automaton
             {
                 for (int dy = -1; dy <= 1; dy++)
                 {
-                    // Skip the tile itself
                     if (dx == 0 && dy == 0)
                         continue;
 
@@ -88,10 +95,12 @@ namespace Cellular_Automaton
 
             return count;
         }
+
         public static bool InvalidTile(int col, int row)
         {
-            return col < 0 || col >= Column || row < 0 || row >= Row;
+            return col < 0 || col >= Columns || row < 0 || row >= Rows;
         }
+
         public static bool ValidTile(int col, int row)
         {
             return !InvalidTile(col, row);

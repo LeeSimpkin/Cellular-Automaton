@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cellular_Automaton
 {
@@ -13,15 +9,11 @@ namespace Cellular_Automaton
         {
             _tile = tile;
         }
+        // Transition from Alive -> Dead when <2 or >3 neighbors are alive.
         public bool ToTransition()
         {
             int aliveNeighbors = _tile.CountAliveNeighbors();
-            if(aliveNeighbors == 3)
-            {
-                return false;
-            }
-            else
-                return true;
+            return aliveNeighbors < 2 || aliveNeighbors > 3;
         }
     }
 }

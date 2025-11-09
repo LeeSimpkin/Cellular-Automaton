@@ -22,7 +22,7 @@ namespace Cellular_Automaton
             base.Initialize();
             whitePixelTexture = new Texture2D(GraphicsDevice, 1, 1);
             whitePixelTexture.SetData(new Color[] { Color.White });
-            tileMap = new TileMap(70, 50, whitePixelTexture, this);
+            tileMap = new TileMap(70, 50, whitePixelTexture);
             foreach (Tile t in TileMap.Tiles)
             {
                 Components.Add(t);
@@ -44,6 +44,14 @@ namespace Cellular_Automaton
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            MouseState ms = Mouse.GetState();
+            point = ms.Position;
+            if (ms.LeftButton == ButtonState.Pressed)
+            {
+                tileMap.ChangeType(ms.Position, Tile.TileType.ALIVE);
+            }
+
 
             base.Update(gameTime);
         }
