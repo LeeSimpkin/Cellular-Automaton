@@ -46,7 +46,7 @@ namespace Cellular_Automaton
         // Parameterless constructor so TileMap can new Tile()
         public Tile() : base(null)
         {
-            var aliveState = new TileStateAlive(this, Game1.point);
+            var aliveState = new TileStateAlive(this, Point.Zero);
             var deadState = new TileStateDead(this, Game1.point);
 
             SparseGraph<TileState, IStateTransition> graph = new();

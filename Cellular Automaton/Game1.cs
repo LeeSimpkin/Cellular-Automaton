@@ -9,7 +9,8 @@ namespace Cellular_Automaton
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D whitePixelTexture;
-        private TileMap tileMap;
+        public static TileMap tileMap;
+        public static Point point = Point.Zero;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -19,15 +20,15 @@ namespace Cellular_Automaton
 
         protected override void Initialize()
         {
-            base.Initialize();
             whitePixelTexture = new Texture2D(GraphicsDevice, 1, 1);
             whitePixelTexture.SetData(new Color[] { Color.White });
-            tileMap = new TileMap(70, 50, whitePixelTexture);
+            Game1.tileMap = new TileMap(70, 50, whitePixelTexture);
             foreach (Tile t in TileMap.Tiles)
             {
                 Components.Add(t);
             }
-            
+            base.Initialize();
+
         }
 
         protected override void LoadContent()
@@ -46,7 +47,7 @@ namespace Cellular_Automaton
                 Exit();
 
             MouseState ms = Mouse.GetState();
-            point = ms.Position;
+            Game1.point = ms.Position;
             if (ms.LeftButton == ButtonState.Pressed)
             {
                 tileMap.ChangeType(ms.Position, Tile.TileType.ALIVE);

@@ -19,7 +19,7 @@ namespace Cellular_Automaton
         }
         public override void OnEnter()
         {
-            Game1.tileMap.ChangeType(point, Tile.TileType.DEAD);
+            //Tile.TileType.DEAD;
         }
         public override void OnExit()
         {
